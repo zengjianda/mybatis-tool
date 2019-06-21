@@ -1,0 +1,112 @@
+package ${package}.${persistence}.${table.lowerStartClassName };
+
+import ${package}.${model}.${table.lowerStartClassName }.${table.upperStartClassName };
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+import java.util.Map;
+import org.apache.ibatis.annotations.Mapper;
+
+
+/**
+ * @author zengjianlu
+ */
+@Mapper
+public interface ${table.upperStartClassName }${persistenceSuffix}{
+     /**
+     *  根据主键id获取对象
+     * @param id
+     * @return
+     */
+    ${table.upperStartClassName } get(@Param("id")final Long id);
+
+    /**
+     *  插入
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long insert(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName } ${table.lowerStartClassName });
+
+    /**
+     *  批量插入
+     * @param list
+     * @return
+     */
+    Long insertBatch(@Param("list")final List<${table.upperStartClassName}> list);
+
+    /**
+     * map更新
+     * @param params
+     * @return
+     */
+    Long update(@Param("params")final Map<String, Object> params);
+
+    /**
+     * map删除
+     * @param params
+     * @return
+     */
+    Long remove(@Param("params")final Map<String, Object> params);
+
+    /**
+     * map查询
+     * @param params
+     * @return
+     */
+    List<${table.upperStartClassName }> find(@Param("params")final Map<String, Object> params);
+
+    /**
+     * map统计数量
+     * @param params
+     * @return
+     */
+    Long count(@Param("params")final Map<String, Object> params);
+
+     /**
+     * 统计数量
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long countBy${table.upperStartClassName}(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 更新
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long updateBy${table.upperStartClassName}(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据主键id更新
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long updateById(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据主键删除
+     * @param id
+     * @return
+     */
+    Long removeById(@Param("id")final Long id);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    Long removeByIds(@Param("ids")final List<Long> ids);
+
+    /**
+     * 根据对象删除
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long removeBy${table.upperStartClassName}(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据对象查询
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    List<${table.upperStartClassName }> findBy${table.upperStartClassName}(@Param("${table.lowerStartClassName }")final ${table.upperStartClassName} ${table.lowerStartClassName });
+}

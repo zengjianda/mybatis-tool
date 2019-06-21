@@ -1,0 +1,108 @@
+package ${package}.${service}.${table.lowerStartClassName};
+
+import ${package}.${model}.${table.lowerStartClassName }.${table.upperStartClassName };
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author zengjianlu
+ */
+public interface ${table.upperStartClassName}${serviceSuffix} {
+    /**
+     *  根据主键id获取对象
+     * @param id
+     * @return
+     */
+    ${table.upperStartClassName } get(final Long id);
+
+    /**
+     *  插入
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long insert(final ${table.upperStartClassName } ${table.lowerStartClassName });
+
+    /**
+     *  批量插入
+     * @param list
+     * @return
+     */
+    Long insertBatch(final List<${table.upperStartClassName}> list);
+
+    /**
+     * map更新
+     * @param params
+     * @return
+     */
+    Long update(final Map<String, Object> params);
+
+    /**
+     * map删除
+     * @param params
+     * @return
+     */
+    Long remove(final Map<String, Object> params);
+
+    /**
+     * map查询
+     * @param params
+     * @return
+     */
+    List<${table.upperStartClassName }> find(final Map<String, Object> params);
+
+    /**
+     * map统计数量
+     * @param params
+     * @return
+     */
+    Long count(final Map<String, Object> params);
+
+    /**
+     * 统计数量
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long countBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+     /**
+     * 更新
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long updateBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据主键id更新
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long updateById(final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据主键删除
+     * @param id
+     * @return
+     */
+    Long removeById(final Long id);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    Long removeByIds(final List<Long> ids);
+
+    /**
+     * 根据对象删除
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    Long removeBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName });
+
+    /**
+     * 根据对象查询
+     * @param ${table.lowerStartClassName }
+     * @return
+     */
+    List<${table.upperStartClassName }> findBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName });
+}

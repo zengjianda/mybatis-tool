@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.${persistence}.${table.lowerStartClassName}.${table.upperStartClassName}${persistenceSuffix}">
+  	
+	<!--The user defined SQL!-->
+  	
+  	
+  	<!--The user defined SQL!-->
+  	
+  	<sql id="updateSql">
+		update ${table.name} ${table.name}
+		 <set>
+		    <% for(column in table.columns) { %>
+		        <if test="${table.lowerStartClassName}.${column.lowerStartFieldName} != null">
+		            ${column.name} = #{${table.lowerStartClassName}.${column.lowerStartFieldName},jdbcType=${column.jdbcType} },
+		        </if>
+		    <% } %>
+		  </set>
+    </sql>
+  	
+  	<sql id="joinTables">
+<%          for(eachLink in table.links) { 
+                var targetTable = eachLink.targetTableTrans; %>
+        <if test="${targetTable.lowerStartClassName} != null">left join ${targetTable.name } ${targettable.name} on ${table.name}.${eachLink.fromColumnName}=${targettable.name}.${eachLink.toColumnName}</if>
+<%           } %>
+<%          for(eachLink in table.linkBys) {
+                var fromTable = eachLink.fromTableTrans; %>
+        <if test="${fromTable.lowerStartClassName}List != null" >left join ${fromTable.name} ${fromtable.name} on ${table.name}.${eachLink.toColumnName}=${fromtable.name}.${eachLink.fromColumnName}</if>
+<%           } %>
+    </sql>
+  	
+    <sql id="colList">
+        <trim prefix="" prefixOverrides=",">
+<%             for(column in table.columns) { %>
+            , ${table.name}.${column.name} AS ${column.name}
+<%             } 
+               for(column in table.keys) { %>
+            , ${table.name}.${column.name} AS ${column.name}
+<%             }
+               for(eachLink in table.links) { 
+                   var targetTable = eachLink.targetTableTrans;  %>
+            <if test="${targetTable.lowerStartClassName} != null">
+<%                 for(column in targetTable.columns) { %>
+                , ${targettable.name}.${column.name} AS ${column.name}
+<%                 } 
+                   for(column in targetTable.keys) { %>
+                , ${targettable.name}.${column.name} AS ${column.name}
+<%                 } %>
+            </if>
+<%              } 
+                for(eachLink in table.linkBys) { 
+                   var fromTable = eachLink.fromTableTrans;  %>
+            <if test="${fromTable.lowerStartClassName}List != null">
+<%                 for(column in fromTable.columns) { %>
+                , ${fromtable.name}.${column.name} AS ${column.name}
+<%                 } 
+                   for(column in fromTable.keys) { %>
+                , ${fromtable.name}.${column.name} AS ${column.name}
+<%                 } %>
+            </if>
+            <% } %>
+        </trim>
+    </sql>
+    
+    <sql id="whereCase">
+    	<where>
+            <% for(key in table.keys) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${key.lowerStartFieldName} != null">and ${table.name}.${key.name} = #{${table.lowerStartClassName}.${key.lowerStartFieldName}}</if><% if(key.javaType == "String") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${key.lowerStartFieldName}LK != null">and ${table.name}.${key.name} LIKE #{${table.lowerStartClassName}.${key.lowerStartFieldName}LK}</if><%} if(key.javaType == "Integer" || key.javaType == "Long" || key.javaType == "Double") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${key.lowerStartFieldName}GT != null">and ${table.name}.${key.name} > #{${table.lowerStartClassName}.${key.lowerStartFieldName}GT}</if><if test="${key.lowerStartFieldName}LT != null">and #{${key.lowerStartFieldName}LT} > ${table.name}.${key.name}</if><% } %>
+<%             } 
+               for(each in table.columns) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${each.lowerStartFieldName} != null">and ${table.name}.${each.name} = #{${table.lowerStartClassName}.${each.lowerStartFieldName}}</if><% if(each.javaType == "String") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${each.lowerStartFieldName}LK != null">and ${table.name}.${each.name} LIKE #{${table.lowerStartClassName}.${each.lowerStartFieldName}LK}</if><%} if(each.javaType == "Integer" || each.javaType == "Long" || each.javaType == "Double") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${each.lowerStartFieldName}GT != null">and ${table.name}.${each.name} > #{${table.lowerStartClassName}.${each.lowerStartFieldName}GT}</if>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${each.lowerStartFieldName}LT != null">and #{${each.lowerStartFieldName}LT} > ${table.name}.${each.name}</if><%} %>
+            <% } %>
+<%             for(eachLink in table.links) { 
+                   var targetTable = eachLink.targetTableTrans; 
+                   for(key in targetTable.keys) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${key.upperStartFieldName} != null">and ${targettable.name}.${key.name} = #{${targetTable.lowerStartClassName}${key.UpperStartFieldName}}</if><% if(key.javaType == "String") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${key.lowerStartFieldName}LK != null">and ${targettable.name}.${key.name} like #{${targetTable.lowerStartClassName}${key.lowerStartFieldName}LK}</if><%} if(key.javaType == "Integer" || key.javaType == "Long" || key.javaType == "Double") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${key.UpperStartFieldName}GT != null">and ${targettable.name}.${key.name} > #{${targetTable.lowerStartClassName}${key.UpperStartFieldName}GT}</if>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${key.UpperStartFieldName}LT != null">and #{${targetTable.lowerStartClassName}${key.UpperStartFieldName}LT} > ${targettable.name}.${key.name}</if><%} %>
+<%                 } 
+                   for(each in targetTable.columns) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${each.upperStartFieldName} != null">and ${targettable.name}.${each.name} = #{${targetTable.lowerStartClassName}${each.UpperStartFieldName}}</if><% if(each.javaType == "String") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${each.UpperStartFieldName}LK != null">and ${targettable.name}.${each.name} like #{${targetTable.lowerStartClassName}${each.UpperStartFieldName}LK}</if><%} if(each.javaType == "Integer" || each.javaType == "Long" || each.javaType == "Double") {%>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${each.UpperStartFieldName}GT != null">and ${targettable.name}.${each.name} > #{${targetTable.lowerStartClassName}${each.UpperStartFieldName}GT}</if>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${each.UpperStartFieldName}LT != null">and #{${targetTable.lowerStartClassName}${each.UpperStartFieldName}LT} > ${targettable.name}.${each.name}</if><%} %>
+                <% } %>
+            <% } %>
+        </where>
+    </sql>
+    
+     <sql id="smallWhereCase">
+    	<where>
+            <% for(key in table.keys) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${key.lowerStartFieldName} != null">and ${table.name}.${key.name} = #{${table.lowerStartClassName}.${key.lowerStartFieldName}}</if>
+            <% if(key.javaType == "String") {%>
+            <% } %>
+<%} 
+               for(each in table.columns) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${each.lowerStartFieldName} != null">and ${table.name}.${each.name} = #{${table.lowerStartClassName}.${each.lowerStartFieldName}}</if>
+            <% if(each.javaType == "String") {%>
+            <%} %>
+            <% } %>
+<%             for(eachLink in table.links) { 
+                   var targetTable = eachLink.targetTableTrans; 
+                   for(key in targetTable.keys) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${key.upperStartFieldName} != null">and ${targettable.name}.${key.name} = #{${targetTable.lowerStartClassName}${key.UpperStartFieldName}}</if>
+            <% if(key.javaType == "String") {%>
+            <%} %>
+<%                 } 
+                   for(each in targetTable.columns) { %>
+            <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.${targetTable.lowerStartClassName}${each.upperStartFieldName} != null">and ${targettable.name}.${each.name} = #{${targetTable.lowerStartClassName}${each.UpperStartFieldName}}</if>
+            <% if(each.javaType == "String") {%>
+            <%} %>
+                <% } %>
+            <% } %>
+        </where>
+    </sql>
+    
+    <resultMap id="return${table.upperStartClassName}" type="${package}.${model}.${table.lowerStartClassName}.${table.upperStartClassName}">
+    <% for(key in table.keys) { %>
+        <id column="${key.name}" javaType="${key.javaType}" jdbcType="${key.jdbcType}" property="${key.lowerStartFieldName}"/>
+    <% } %>
+    <% for(column in table.columns) { %>
+        <result column="${column.name}" javaType="${column.javaType}" jdbcType="${column.jdbcType}" property="${column.lowerStartFieldName}"/>
+    <% } %>
+<%     for(eachLink in table.links) { 
+           var targetTable = eachLink.targetTableTrans; %>
+        <association property="${targetTable.lowerStartClassName}" javaType="${targetTable.upperStartClassName}">
+        <% for(key in targetTable.keys) { %>
+            <id column="${key.alias}" javaType="${key.javaType}" jdbcType="${key.jdbcType}" property="${key.lowerStartFieldName}"/>
+        <% } %>
+        <% for(column in targetTable.columns) { %>
+            <result column="${column.name}" javaType="${column.javaType}" jdbcType="${column.jdbcType}" property="${column.lowerStartFieldName}"/>
+        <% } %>
+        </association>
+<%     } %>
+<%     for(eachLink in table.linkBys) {
+           var fromTable = eachLink.fromTableTrans; %>
+        <collection property="${fromTable.lowerStartClassName}List" ofType="${fromTable.upperStartClassName}">
+        <% for(key in fromTable.keys) { %>
+            <id column="${key.alias}" javaType="${key.javaType}" jdbcType="${key.jdbcType}" property="${key.lowerStartFieldName}"/>
+        <% } %>
+        <% for(column in fromTable.columns) { %>
+            <result column="${column.name}" javaType="${column.javaType}" jdbcType="${column.jdbcType}" property="${column.lowerStartFieldName}"/>
+        <% } %>
+        </collection>
+<%     } %>
+    </resultMap>
+    
+    <select id="get"  resultMap="return${table.upperStartClassName}">
+        select * from ${table.name} ${table.name} where <% for(key in table.keys) { %> ${table.name}.${key.name} = #{${key.lowerStartFieldName}} <% } %>
+    </select>
+    
+    <update id="update">
+        <include refid="updateSql"/>
+        <include refid="whereCase"/>
+    </update>
+    
+    <insert id="insertBatch" >
+     	insert into ${table.name} 
+     	(
+            <trim prefix="" prefixOverrides=",">
+            	<% for(column in table.columns) { %>,${column.name}<% } %>
+            </trim>
+        ) values 
+    	<foreach collection="list" item="item" index="index" separator=",">  
+	    (
+            <trim prefix="" prefixOverrides=",">
+                <% for(column in table.columns) { %> ,#{item.${column.lowerStartFieldName},jdbcType=${column.jdbcType}}<% } %>
+            </trim>
+	     )
+    	</foreach>  
+    </insert>  
+    
+    <insert id="insert" parameterType="${table.upperStartClassName}">
+         <selectKey resultType="long" keyProperty="${table.lowerStartClassName}.id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+         </selectKey>
+        insert into ${table.name} 
+        (
+            <trim prefix="" prefixOverrides=",">
+            	<% for(column in table.columns) { %>,${column.name}<% } %>
+            </trim>
+        )values(
+            <trim prefix="" prefixOverrides=",">
+            	<% for(column in table.columns) { %>,#{${table.lowerStartClassName}.${column.lowerStartFieldName},jdbcType=${column.jdbcType}}<% } %>
+            </trim>
+        )
+    </insert>
+    
+    <delete id="remove" >
+        delete ${table.name} from ${table.name} ${table.name} <include refid="whereCase"/>
+    </delete>
+    
+    <select id="find"  resultMap="return${table.upperStartClassName}">
+        select <include refid="colList" /> from ${table.name} ${table.name}
+		<include refid="joinTables"/>
+		<include refid="whereCase"/>
+        <if test="orderBy != null">order by #{orderBy}</if>
+        <if test="limitStart != null and limitEnd != null">limit #{limitStart}, #{limitEnd}</if>
+    </select>
+    
+    <select id="count"  resultType="long">
+        select count(1) from ${table.name} ${table.name}
+		<include refid="joinTables"/>
+        <include refid="whereCase"/>
+    </select>
+    
+    <update id="updateBy${table.upperStartClassName}" >
+        <include refid="updateSql"/>
+        <include refid="smallWhereCase"/>
+    </update>
+
+     <update id="updateById">
+        <include refid="updateSql"/>
+        where id = #{${table.lowerStartClassName}.id}
+    </update>
+
+    <delete id="removeById">
+         delete from ${table.name} where id = #{id}
+    </delete>
+
+    <delete id="removeByIds">
+         delete from ${table.name} where id in
+          <foreach item="item" collection="ids" open="(" separator="," close=")" >
+               #{item}
+          </foreach>
+    </delete>
+
+    <delete id="removeBy${table.upperStartClassName}">
+        delete from ${table.name} ${table.name} <include refid="smallWhereCase"/>
+    </delete>
+    
+    <select id="findBy${table.upperStartClassName}" resultMap="return${table.upperStartClassName}">
+        select <include refid="colList" /> from ${table.name} ${table.name}
+		<include refid="joinTables"/>
+        <include refid="smallWhereCase"/>
+        <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.orderBy != null">order by #{${table.lowerStartClassName}.orderBy}</if>
+        <if test="${table.lowerStartClassName} != null and ${table.lowerStartClassName}.limitStart != null and ${table.lowerStartClassName}.limitEnd != null">limit #{${table.lowerStartClassName}.limitStart}, #{${table.lowerStartClassName}.limitEnd}</if>
+    </select>
+    
+    <select id="countBy${table.upperStartClassName}"  resultType="long">
+        select count(1) from ${table.name} ${table.name}
+		<include refid="joinTables"/>
+        <include refid="smallWhereCase"/>
+    </select>
+
+
+    
+</mapper>

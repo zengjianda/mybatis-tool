@@ -1,0 +1,91 @@
+package ${package}.${serviceImpl}.${table.lowerStartClassName};
+
+import ${package}.${model}.${table.lowerStartClassName}.${table.upperStartClassName};
+import ${package}.${persistence}.${table.lowerStartClassName}.${table.upperStartClassName}${persistenceSuffix};
+import ${package}.${service}.${table.lowerStartClassName}.${table.upperStartClassName}${serviceSuffix};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author zengjianlu
+ */
+@Service("${table.lowerStartClassName}${serviceSuffix}")
+public class ${table.upperStartClassName}${serviceImplSuffix} implements ${table.upperStartClassName}${serviceSuffix} {
+    
+    @Autowired
+	private ${table.upperStartClassName}${persistenceSuffix} ${table.lowerStartClassName }${persistenceSuffix};
+
+    @Override
+	public ${table.upperStartClassName} get(final Long id) {
+    	return ${table.lowerStartClassName }${persistenceSuffix}.get(id);
+    }
+
+    @Override
+    public Long insert(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        ${table.lowerStartClassName }${persistenceSuffix}.insert(${table.lowerStartClassName });
+        return ${table.lowerStartClassName }.getId();
+    }
+
+    @Override
+    public Long insertBatch(final List<${table.upperStartClassName}> list) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.insertBatch(list);
+    }
+
+    @Override
+    public Long update(final Map<String, Object> params) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.update(params);
+    }
+
+    @Override
+    public Long remove(final Map<String, Object> params) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.remove(params);
+    }
+
+    @Override
+    public List<${table.upperStartClassName }> find(final Map<String, Object> params) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.find(params);
+    }
+
+    @Override
+    public Long count(final Map<String, Object> params) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.count(params);
+    }
+
+    @Override
+    public Long countBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.countBy${table.upperStartClassName}(${table.lowerStartClassName });
+    }
+
+    @Override
+    public Long updateBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.updateBy${table.upperStartClassName}(${table.lowerStartClassName });
+    }
+
+    @Override
+    public Long updateById(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.updateById(${table.lowerStartClassName });
+    }
+
+    @Override
+    public Long removeById(final Long id) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.removeById(id);
+    }
+
+    @Override
+    public Long removeByIds(final List<Long> ids) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.removeByIds(ids);
+    }
+
+    @Override
+    public Long removeBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.removeBy${table.upperStartClassName}(${table.lowerStartClassName });
+    }
+
+    @Override
+    public List<${table.upperStartClassName}> findBy${table.upperStartClassName}(final ${table.upperStartClassName} ${table.lowerStartClassName }) {
+        return ${table.lowerStartClassName }${persistenceSuffix}.findBy${table.upperStartClassName}(${table.lowerStartClassName });
+    }
+
+}
