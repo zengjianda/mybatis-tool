@@ -24,7 +24,7 @@ public class Main {
 	public static String driver = "com.mysql.jdbc.Driver";
 
 	//要初始化的表
-	public static String[] tables = {"author","book","book_author","category","diary","fan","level_score_record","publish","review","score_record","sys_user","user"};
+	public static String[] tables = {"sys_dic"};
 
 
 	public static File GEN_SERVICE_FOLDER = new File("F:/idea_workspace/myself/read-all/read-business/src/main/java");//生成service文件目录
